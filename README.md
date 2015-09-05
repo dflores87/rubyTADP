@@ -6,3 +6,5 @@ paso mely
 acordar de instalar
 gem install bundler
 bundler install
+
+#hola mariano
