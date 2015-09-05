@@ -15,4 +15,14 @@ describe 'golondrinas' do
   it 'deberia ganar energia cdo come' do
 
   end
+
+  class Aspect
+    def self.on(*args, &block)
+      "Hola!!!!"
+    end
+  end
+
+  puts Aspect.on do
+
+  end
 end
