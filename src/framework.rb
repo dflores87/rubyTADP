@@ -183,10 +183,3 @@ instancia . m3 ( 10 )
 instancia . x
 # 123
 =end
-
-
-
-
-
-
-
