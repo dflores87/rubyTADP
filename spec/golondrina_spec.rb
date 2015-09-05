@@ -2,7 +2,7 @@ require 'rspec'
 require_relative '../src/Golondrina'
 
 describe 'golondrinas' do
-  let (:una_golondrina){
+  let (:una_golondrina) {
     Golondrina.new
   }
 

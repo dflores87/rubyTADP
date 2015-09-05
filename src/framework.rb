@@ -1,5 +1,10 @@
-=begin
 class MiClase
+  attr_accessor :pepito
+
+  def initialize
+    @pepito = pepito
+  end
+
   def foo
   end
 
@@ -9,6 +14,23 @@ class MiClase
   end
 end
 
+module MiModulo
+
+end
+
+module MiObjeto
+
+end
+
+class Aspects
+  def self.on(*args, &block)
+    args[0].class
+    block.call
+  end
+end
+
+
+=begin
 #SELECTOR
 Aspects.on MiClase do
   where name ( /fo{2}/ )
@@ -116,7 +138,6 @@ Aspects.on MiClase5 do
 end
 MiClase5 . new . hace_algo ( 'foo' , 'foo' )
 # 'foo-bar(hace_algo->foo)'
-=end
 
 #Redirección
 class A
@@ -131,7 +152,6 @@ class B
   end
 end
 
-=begin
 #Inyección lógica
 class MiClase6
   attr_accessor : x
