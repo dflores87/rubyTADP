@@ -1,3 +1,4 @@
+#ORIGENES
 class MiClase
   attr_accessor :pepito
 
@@ -15,20 +16,23 @@ class MiClase
 end
 
 module MiModulo
+  attr_accessor :pepito2
+
+  def initialize
+    @pepito2 = pepito2
+  end
+end
+
+class MiObjeto #Esta bien que sea una clase?
 
 end
 
-module MiObjeto
-
-end
-
-class Aspects
+class Aspects #Es el padre del diseño.
   def self.on(*args, &block)
     args[0].class
     block.call
   end
 end
-
 
 =begin
 #SELECTOR

@@ -1,10 +1,10 @@
 # rubyTADP
-tp 2c 2015
+TP1 2C 2015
 
-paso mely
-
-acordar de instalar
+Recordar de instalar en la carpeta:
 gem install bundler
 bundler install
 
-#hola mariano
+Ordenar código: Ctrl Alt L
+Comentar con una sola línea: Ctrl /
+Comentar como bloque de una: Ctrl Alt /
