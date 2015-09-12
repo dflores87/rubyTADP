@@ -8,3 +8,5 @@ bundler install
 Ordenar código: Ctrl Alt L
 Comentar con una sola línea: Ctrl /
 Comentar como bloque de una: Ctrl Alt /
+
+http://caiustheory.com/ruby-shortcuts/

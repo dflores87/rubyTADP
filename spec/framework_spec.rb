@@ -36,9 +36,10 @@ describe 'framework tests' do
       foobar= MiClase.new
 
       nombre= clase1.class #Pasar a string. Ver como contener a otro.
+      puts %s{nombre}
 
-      #block= {|una_clase| una_clase.include?(nombre)}
-      #[clase1, foo1, foobar].select(block)
+      #block= {|una_clase| una_clase.include?(%s{foo})}
+      #[%s{clase1}, foo1, %s{foobar}].select(block)
     end
   end
 
