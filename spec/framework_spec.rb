@@ -43,6 +43,15 @@ describe 'framework tests' do
     end
   end
 
+  it 'crear un specto que no tenga origenes definidos. Deberia romper' do
+    expect {
+      Aspects.do do
+        #....
+      end
+    }.to raise_error(ArgumentError)
+
+  end
+
   # Aspects.on UnaClase, UnModulo, OtroModulo do
   #   # definición para las instancias de UnaClase, UnModulo u OtroModulo
   # end

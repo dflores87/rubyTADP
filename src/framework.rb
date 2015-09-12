@@ -28,9 +28,16 @@ class MiObjeto #Esta bien que sea una clase?
 end
 
 class Aspects #Es el padre del diseño.
+  attr_accessor :origenes
+
+  def initialize(*args)
+    self.origenes = self.resolve_origins(args)
+  end
+
   def self.on(*args, &block)
-    args[0].class
-    block.call
+    aspecto = Aspects.new *args
+    #aspecto.instance_eval block
+    aspecto
   end
 end
 
