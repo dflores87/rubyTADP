@@ -9,48 +9,49 @@ describe 'framework tests' do
     #un_objeto= MiObjeto.new
 
     #ORIGEN
-    Aspects.on MiClase do
+    a = Aspects.on MiClase, MiModulo do
       # definición de aspectos para las instancias de MiClase
-      puts una_clase.class
+      "tiene una clase"
     end
+    puts a.origenes
 
-    Aspects.on MiModulo do
-      # definición de aspectos para las instancias de MiModulo
-      puts 'Hola, soy un modulo'
-      #puts un_modulo.class
-    end
-
-    Aspects.on MiObjeto do
-      # definición de aspectos para miObjeto
-      puts 'Hola, soy un objeto'
-      #puts un_objeto.class
-    end
+    # Aspects.on MiModulo do
+    #   # definición de aspectos para las instancias de MiModulo
+    #   puts 'Hola, soy un modulo'
+    #   #puts un_modulo.class
+    # end
+    #
+    # Aspects.on MiObjeto do
+    #   # definición de aspectos para miObjeto
+    #   puts 'Hola, soy un objeto'
+    #   #puts un_objeto.class
+    # end
   end
 
-  it 'crear un origen a partir de una ExpReg' do
-    Aspects.on MiClase , /^Foo.*/ , /.*bar/ do
-      # definición para las instancias de MiClase y cualquier clase o módulo
-      # cuyo nombre comience con "Foo" o termine con "bar"
-      clase1= MiClase.new
-      foo1= MiClase.new
-      foobar= MiClase.new
-
-      nombre= clase1.class #Pasar a string. Ver como contener a otro.
-      puts %s{nombre}
-
-      #block= {|una_clase| una_clase.include?(%s{foo})}
-      #[%s{clase1}, foo1, %s{foobar}].select(block)
-    end
-  end
-
-  it 'crear un specto que no tenga origenes definidos. Deberia romper' do
-    expect {
-      Aspects.do do
-        #....
-      end
-    }.to raise_error(ArgumentError)
-
-  end
+  # it 'crear un origen a partir de una ExpReg' do
+  #   Aspects.on MiClase , /^Foo.*/ , /.*bar/ do
+  #     # definición para las instancias de MiClase y cualquier clase o módulo
+  #     # cuyo nombre comience con "Foo" o termine con "bar"
+  #     clase1= MiClase.new
+  #     # foo1= MiClase.new
+  #     # foobar= MiClase.new
+  #
+  #     nombre= clase1.class #Pasar a string. Ver como contener a otro.
+  #     puts %s{nombre}
+  #
+  #     #block= {|una_clase| una_clase.include?(%s{foo})}
+  #     #[%s{clase1}, foo1, %s{foobar}].select(block)
+  #   end
+  # end
+  #
+  # it 'crear un specto que no tenga origenes definidos. Deberia romper' do
+  #   expect {
+  #     Aspects.do do
+  #       #....
+  #     end
+  #   }.to raise_error(ArgumentError)
+  #
+  # end
 
   # Aspects.on UnaClase, UnModulo, OtroModulo do
   #   # definición para las instancias de UnaClase, UnModulo u OtroModulo

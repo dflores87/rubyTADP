@@ -39,6 +39,21 @@ class Aspects #Es el padre del diseño.
     #aspecto.instance_eval block
     aspecto
   end
+
+  def resolve_origins(args)
+    agregar = []
+    args.each do |arg|
+      if (arg.is_a? Class)
+        puts "es una clase"
+        agregar +=arg.to_s
+      end
+      if (arg.is_a? Module)
+        puts "es un modulo"
+        agregar +=arg.to_s
+      end
+    end
+    agregar
+  end
 end
 
 =begin
