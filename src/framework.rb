@@ -8,10 +8,25 @@ class MiClase
 
   def foo
   end
-
   private
-
   def bar
+  end
+
+  def foo( p1, p2, p3, p4 = 'a', p5 = 'b', p6 = 'c')
+  end
+  def bar( p1, p2 = 'a', p3 = 'b', p4 = 'c')
+  end
+
+  def foo( param1, param2)
+  end
+  def bar( param1)
+  end
+
+  def foo1(p1)
+  end
+  def foo2(p1, p2)
+  end
+  def foo3(p1, p2, p3)
   end
 end
 
@@ -120,84 +135,74 @@ Aspects.on MiClase, miObjeto do
 =end
 end
 
-=begin
-#SELECTOR
+#SELECTOR: Esta condición se cumple cuando el selector del método respeta una cierta regex.
 Aspects.on MiClase do
-  where name ( /fo{2}/ )
+  where name(/fo{2}/)
 # array con el método foo (bar no matchea)
-  where name ( /fo{2}/ ), name ( /foo/ )
+  where name( /fo{2}/), name(/foo/)
 # array con el método foo (foo matchea ambas regex)
-  where name ( /^fi+/ )
+  where name(/^fi+/)
 # array vacío (ni bar ni foo matchean)
-  where name ( /foo/ ), name ( /bar/ )
+  where name(/foo/), name(/bar/)
 # array vacío (ni foo ni bar matchean ambas regex)
 end
 
+#VISIBILIDAD: Se cumple si el método es privado o público.
 Aspects.on MiClase do
-  where name ( /bar/ ), is_private
+  where name(/bar/), is_private
 # array con el método bar
-  where name ( /bar/ ), is_public
+  where name(/bar/), is_public
 # array vacío
 end
 
-class MiClase2
-  def foo ( p1 , p2 , p3 , p4 = 'a' , p5 = 'b' , p6 = 'c' )
-  end
-  def bar ( p1 , p2 = 'a' , p3 = 'b' , p4 = 'c' )
-  end
-end
-
+#CANTIDAD DE PARAMETROS: Debe poder establecerse una condición que se cumpla si el método tiene
+#                        exactamente N parámetros obligatorios, opcionales o ambos.
 #CUMPLE EXACTAMENTE N PARAMETROS
-Aspects.on MiClase2 do
-  where has_parameters ( 3 , mandatory )
+Aspects.on MiClase do
+  where has_parameters(3, mandatory)
 # array con el método foo
-  where has_parameters ( 6 )
+  where has_parameters(6)
 # array con el método foo
-  where has_parameters ( 3 , optional )
+  where has_parameters(3, optional)
 # array con los métodos foo y bar
 end
 
-class MiClase3
-  def foo ( param1 , param2 )
-  end
-  def bar ( param1 )
-  end
-end
-
+#NOMBRE DE PARAMETROS: Esta condición se cumple si el método tiene exactamente N parámetros cuyo
+#                      nombre cumple cierta regex.
 #CUMPLE EXACTAMENTE N PARAMETROS Y CON NOMBRE DE CIERTA ER
-Aspects.on MiClase3 do
-  where has_parameters ( 1 , /param.*/ )
+Aspects.on MiClase do
+  where has_parameters( 1, /param.*/)
 # array con los el método bar
-  where has_parameters ( 2 , /param.*/ )
+  where has_parameters( 2, /param.*/)
 # array con el método foo
-  where has_parameters ( 3 , /param.*/ )
+  where has_parameters( 3, /param.*/)
 # array vacío
 end
 
-class MiClase4
-  def foo1(p1)
-  end
-  def foo2(p1, p2)
-  end
-  def foo3(p1, p2, p3)
-  end
-end
-
+#NEGACION: Esta condición recibe otras condiciones por parámetro y se cumple cuando ninguna
+#          de ellas se cumple.
 #NO CUMPLE CON NADA
-Aspects.on MiClase4 do
-  where name(/foo\d/), neg ( has_parameters ( 1 ))
+Aspects.on MiClase do
+  where name(/foo\d/), neg(has_parameters(1))
 # array con los métodos foo2 y foo3
 end
 
-#TRANSFORMACION
-Aspects.on MiClase , miObjeto do
-  transform( where << Condicion1 >>, << Condicion2 >>, ..,<< CondicionN >>) do
-  << Transformación1 >>
-  << Transformación2 >>
-  ...
+#TRANSFORMACION: Se pide aplicar transformaciones sobre todos los métodos que matchean todas las condiciones.
+#Cuando los orígenes son módulos o clases, todas sus instancias se verán afectadas.
+#Cuando el origen sea una instancia, sólo ésa misma será afectada por las transformaciones.
+Aspects.on MiClase, miObjeto do
+=begin
+  transform(where <<Condicion1>>, <<Condicion2>>, <<CondicionN>>) do
+  <<Transformación1>>
+  <<Transformación2>>
+  #...hasta el infinito y mas alla!
+#Debe ser posible aplicar múltiples transformaciones (sucesivas o no) para las mismas
+#Condiciones u Origen.
 end
+=end
 end
 
+=begin
 #Inyección por parámetro
 class MiClase5
   def hace_algo ( p1 , p2 )
