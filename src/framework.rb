@@ -56,6 +56,43 @@ class Aspects #Es el padre del diseño.
   end
 end
 
+#Aspects.initialize MiClase, MiModulo, MiModulo
+=begin
+Aspects.on UnaClase, UnModulo, OtroModulo do #on:Agarra los args y un bloque.
+# definición para las instancias de UnaClase, UnModulo u OtroModulo
+end
+=end
+Aspects.on MiClase, /^Foo.*/, /.*bar/ do
+  # definición para las instancias de MiClase y cualquier clase o módulo
+  # cuyo nombre comience con "Foo" o termine con "bar"
+=begin
+  clase1= MiClase.new
+  # foo1= MiClase.new
+  # foobar= MiClase.new
+
+  nombre= clase1.class #Pasar a string. Ver como contener a otro.
+  puts %s{nombre}
+
+  #block= {|una_clase| una_clase.include?(%s{foo})}
+  #[%s{clase1}, foo1, %s{foobar}].select(block)
+=end
+end
+
+Aspects.on do
+  # ...
+end
+# ArgumentError: wrong number of arguments (0 for +1)
+
+Aspects.on /NombreDeClaseQueNoExiste/ do
+# ...
+end
+# ArgumentError: origen vacío
+
+Aspects.on /NombreDeClaseQueNoExiste/, /NombreDeClaseQueSiExiste/ do
+# ...
+end
+# Exito!
+
 =begin
 #SELECTOR
 Aspects.on MiClase do

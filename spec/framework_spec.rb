@@ -29,20 +29,8 @@ describe 'framework tests' do
   end
 
   # it 'crear un origen a partir de una ExpReg' do
-  #   Aspects.on MiClase , /^Foo.*/ , /.*bar/ do
-  #     # definición para las instancias de MiClase y cualquier clase o módulo
-  #     # cuyo nombre comience con "Foo" o termine con "bar"
-  #     clase1= MiClase.new
-  #     # foo1= MiClase.new
-  #     # foobar= MiClase.new
-  #
-  #     nombre= clase1.class #Pasar a string. Ver como contener a otro.
-  #     puts %s{nombre}
-  #
-  #     #block= {|una_clase| una_clase.include?(%s{foo})}
-  #     #[%s{clase1}, foo1, %s{foobar}].select(block)
-  #   end
-  # end
+
+   end
   #
   # it 'crear un specto que no tenga origenes definidos. Deberia romper' do
   #   expect {
@@ -53,23 +41,6 @@ describe 'framework tests' do
   #
   # end
 
-  # Aspects.on UnaClase, UnModulo, OtroModulo do
-  #   # definición para las instancias de UnaClase, UnModulo u OtroModulo
-  # end
-
-  #   Aspects.on do
-  #   # ...
-  #   end
-  #   # ArgumentError: wrong number of arguments (0 for +1)
-  #   Aspects.on / NombreDeClaseQueNoExiste / do
-  #   # ...
-  #   end
-  #   # ArgumentError: origen vacío
-  #   Aspects.on / NombreDeClaseQueNoExiste /, / NombreDeClaseQueS í Existe / do
-  #   # ...
-  #   end
-  #   # Exito!
-  #
   #   Aspects.on MiClase , miObjeto do
   #   where << Condicion1 >>, << Condicion2 >>, ..., << CondicionN >>
   #   # Retorna los métodos que entienden miObjeto y las instancias de MiClase
