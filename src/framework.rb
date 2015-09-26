@@ -56,6 +56,20 @@ class Aspects #Es el padre del diseño.
   end
 end
 
+Aspects.on MiClase do
+# definición de aspectos para las instancias de MiClase
+end
+
+Aspects.on MiModulo do
+# definición de aspectos para las instancias de MiModulo
+end
+
+miObjeto= MiObjeto.new
+
+Aspects.on miObjeto do
+# definición de aspectos para miObjeto
+end
+
 #Aspects.initialize MiClase, MiModulo, MiModulo
 =begin
 Aspects.on UnaClase, UnModulo, OtroModulo do #on:Agarra los args y un bloque.
@@ -92,6 +106,19 @@ Aspects.on /NombreDeClaseQueNoExiste/, /NombreDeClaseQueSiExiste/ do
 # ...
 end
 # Exito!
+
+
+#En este punto se pide implementar un mensaje w here , accesible desde dentro del contexto
+#de los Orígenes, que reciba un conjunto de condiciones por parámetro.
+#Los métodos retornados no solo serán aquellos definidos en la clase o módulo inmediato,
+#sino todos los de su jerarquía.
+Aspects.on MiClase, miObjeto do
+=begin
+  where <<Condicion1>>, <<Condicion2>>, <<CondicionN>>
+  # Retorna los métodos que entienden miObjeto y las instancias de MiClase
+  # que cumplen con todas las condiciones pedidas
+=end
+end
 
 =begin
 #SELECTOR

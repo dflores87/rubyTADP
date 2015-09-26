@@ -41,12 +41,6 @@ describe 'framework tests' do
   #
   # end
 
-  #   Aspects.on MiClase , miObjeto do
-  #   where << Condicion1 >>, << Condicion2 >>, ..., << CondicionN >>
-  #   # Retorna los métodos que entienden miObjeto y las instancias de MiClase
-  #   # que cumplen con todas las condiciones pedidas
-  #   end
-
   #   it 'A saluda' do
   #     Aspects.on A do
   #       transform( where name ( /saludar/ )) do
