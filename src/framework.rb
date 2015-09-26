@@ -45,11 +45,11 @@ class Aspects #Es el padre del diseño.
     args.each do |arg|
       if (arg.is_a? Class)
         puts "es una clase"
-        agregar +=arg.to_s
+        #agregar +=arg.to_s
       end
       if (arg.is_a? Module)
         puts "es un modulo"
-        agregar +=arg.to_s
+        #agregar +=arg.to_s
       end
     end
     agregar
