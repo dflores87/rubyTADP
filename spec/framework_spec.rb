@@ -14,55 +14,41 @@ describe 'framework tests' do
       "tiene una clase"
     end
     puts a.origenes
-
-    # Aspects.on MiModulo do
-    #   # definición de aspectos para las instancias de MiModulo
-    #   puts 'Hola, soy un modulo'
-    #   #puts un_modulo.class
-    # end
-    #
-    # Aspects.on MiObjeto do
-    #   # definición de aspectos para miObjeto
-    #   puts 'Hola, soy un objeto'
-    #   #puts un_objeto.class
-    # end
   end
 
-  # it 'crear un origen a partir de una ExpReg' do
+   it 'crear un origen a partir de una ExpReg' do
 
    end
-  #
-  # it 'crear un specto que no tenga origenes definidos. Deberia romper' do
-  #   expect {
-  #     Aspects.do do
-  #       #....
-  #     end
-  #   }.to raise_error(ArgumentError)
-  #
-  # end
 
-  #   it 'A saluda' do
-  #     Aspects.on A do
-  #       transform( where name ( /saludar/ )) do
-  #         redirect_to( B.new)
-  #       end
-  #     end
-  #     #A.new.saludar ("Mundo")
-  #     soyA = A.new
-  #     soyA.saludar("Mundo")
-  #     expect(SoyA.saludar)_to eq("Hola, Mundo !")
-  #   end
-  #
-  # # "Adiosín, Mundo"
-  #
-  #   Aspects.on B do
-  #     transform( where name ( /saludar/ )) do
-  #       inject ( x : "Chicos")
-  #       redirect_to ( A . new)
-  #     end
-  #   end
-  #   B . new . saludar ( "Mundo")
-  # # "Hola, Chicos!"
-  # =end
+   it 'crear un specto que no tenga origenes definidos. Deberia romper' do
+   expect {
+       Aspects.do do
+         #....
+       end
+     }.to raise_error(ArgumentError)
+
+   end
+
+     it 'A saluda' do
+       soyA = A.new
+       soyA.saludar("Mundo")
+       expect(SoyA.saludar)_to eq("Hola, Mundo !")
+     end
+
+  #Probar la Inyeccion Logica.
+  instancia = MiClase.new
+  instancia.m1(1, 2)
+  #30
+  instancia.x
+  #10
+  instancia = MiClase.new
+  instancia.m2(10)
+  #10
+  instancia.m2(200)
+  #400
+  instancia = MiClase.new
+  instancia.m3(10)
+  instancia.x
+#123
 
 end

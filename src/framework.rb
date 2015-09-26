@@ -28,6 +28,28 @@ class MiClase
   end
   def foo3(p1, p2, p3)
   end
+
+  def hace_algo( p1, p2)
+    p1 + '-' + p2
+  end
+  def hace_otra_cosa( p2, ppp)
+    p2 + ':' + ppp
+  end
+
+  def hace_algo( p1, p2)
+    p1 + "-" + p2
+  end
+
+  attr_accessor :x
+  def m1( x, y)
+    x + y
+  end
+  def m2(x)
+    @x = x
+  end
+  def m3(x)
+    @x = x
+  end
 end
 
 module MiModulo
@@ -122,8 +144,7 @@ Aspects.on /NombreDeClaseQueNoExiste/, /NombreDeClaseQueSiExiste/ do
 end
 # Exito!
 
-
-#En este punto se pide implementar un mensaje w here , accesible desde dentro del contexto
+#En este punto se pide implementar un mensaje where, accesible desde dentro del contexto
 #de los Orígenes, que reciba un conjunto de condiciones por parámetro.
 #Los métodos retornados no solo serán aquellos definidos en la clase o módulo inmediato,
 #sino todos los de su jerarquía.
@@ -135,6 +156,7 @@ Aspects.on MiClase, miObjeto do
 =end
 end
 
+##LISTA DE CONDICIONES
 #SELECTOR: Esta condición se cumple cuando el selector del método respeta una cierta regex.
 Aspects.on MiClase do
   where name(/fo{2}/)
@@ -202,74 +224,76 @@ end
 =end
 end
 
-=begin
-#Inyección por parámetro
-class MiClase5
-  def hace_algo ( p1 , p2 )
-    p1 + '-' + p2
-  end
-  def hace_otra_cosa ( p2 , ppp )
-    p2 + ':' + ppp
-  end
-end
-Aspects.on MiClase5 do
-  transform( where has_parameters (1, /p2/ )) do
-    inject ( p2 : ' bar ' )
+##LISTA DE TRANSFORMACIONES
+#INYECCION POR PARAMETRO: Recibe un hash que representa nuevos valores para los
+#parámetros del método. Al momento de ser invocado, los parámetros con nombres
+#definidos en el hash deben ser sustituidos por los valores presentes en el mismo.
+Aspects.on MiClase do
+  transform( where has_parameters(1, /p2/)) do
+    inject( p2: 'bar')
   end
 end
-instancia = MiClase5 . new
-instancia . hace_algo ( "foo" )
-# "foo-bar"
-instancia . hace_algo ( "foo" , "foo" )
-# "foo-bar"
-instancia . hace_otra_cosa ( "foo" , "foo" )
-# "bar:foo"
-Aspects.on MiClase5 do
-  transform( where has_parameters ( 1 , /p2/ )) do
-    inject ( p2 : proc { | receptor , mensaje , arg_anterior |
+
+instancia= MiClase.new
+instancia.hace_algo("foo")
+#"foo-bar"
+instancia.hace_algo("foo","foo")
+#"foo-bar"
+instancia.hace_otra_cosa("foo","foo")
+#"bar:foo"
+
+#Si el valor a inyectar es un Proc, no se debe inyectar el Proc, sino el resultado de ejecutarlo,
+#pasando como parámetros al objeto receptor del mensaje, el selector del método y el
+#parámetro original.
+
+Aspects.on MiClase do
+  transform( where has_parameters(1, /p2/)) do
+    inject( p2: proc{ | receptor , mensaje, arg_anterior |
       "bar(#{mensaje}->#{arg_anterior})"
     })
   end
 end
-MiClase5 . new . hace_algo ( 'foo' , 'foo' )
+
+MiClase.new.hace_algo( 'foo', 'foo')
 # 'foo-bar(hace_algo->foo)'
 
-#Redirección
+
+#REDIRECCION: Esta transformación recibe un objeto sustituto por parámetro. Al momento de ser
+#invocado el método, en lugar de ser ejecutado sobre el receptor original, debe
+#ejecutarse sobre el sustituto.
 class A
-  def saludar ( x)
+  def saludar (x)
     "Hola, " + x
   end
 end
 
 class B
-  def saludar ( x)
+  def saludar (x)
     "Adiosin, " + x
   end
 end
 
-#Inyección lógica
-class MiClase6
-  attr_accessor : x
-  def m1 ( x , y )
-    x + y
-  end
-  def m2 ( x )
-    @x = x
-  end
-  def m3 ( x )
-    @x = x
+Aspects.on A do
+  transform(where name(/saludar/)) do
+    redirect_to(B.new)
   end
 end
-Aspects.on MiClase6 do
-  transform(where name ( /m1/ )) do
+
+A.new.saludar("Mundo") #"Adiosín, Mundo"
+
+#INYECCION LOGICA: Esta transformación recibe un bloque con una extensión al código del método
+#original. Cuando el método en cuestión sea invocado, el bloque recibido debe
+#ejecutarse Antes , Después o En Lugar De el código original del método.
+Aspects.on MiClase do
+  transform(where name( /m1/ )) do
     before do | instance , cont , * args |
     @x = 10
-    new_args = args . map { | arg | arg * 10 }
-    cont . call ( self , nil , * new_args )
+    new_args = args.map{ | arg | arg* 10 }
+    cont.call( self, nil, *new_args)
     end
   end
-  transform(where name ( /m2/ )) do
-    after do | instance , * args |
+  transform(where name( /m2/)) do
+    after do | instance , *args |
     if @x > 100
       2 * @x
     else
@@ -277,24 +301,18 @@ Aspects.on MiClase6 do
     end
     end
   end
-  transform(where name ( /m3/ )) do
-    instead_of do | instance , * args |
-    @x = 123
+  transform(where name (/m3/)) do
+    instead_of do |instance, *args|
+      @x = 123
     end
   end
 end
-instancia = MiClase6 . new
-instancia . m1 ( 1 , 2 )
-# 30
-instancia . x
-# 10
-instancia = MiClase6 . new
-instancia . m2 ( 10 )
-# 10
-instancia . m2 ( 200 )
-# 400
-instancia = MiClase6 . new
-instancia . m3 ( 10 )
-instancia . x
-# 123
-=end
+
+#Debe ser posible aplicar múltiples transformaciones (sucesivas o no) para las mismas Condiciones u Origen.
+Aspects.on B do
+  transform(where name (/saludar/)) do
+    inject(x: "Chicos")
+    redirect_to(A.new)
+  end
+end
+B.new.saludar("Mundo") #"Hola, Chicos!"
