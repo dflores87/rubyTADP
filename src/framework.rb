@@ -6,6 +6,9 @@ class MiClase
     @pepito = pepito
   end
 
+  def hace_algo
+  end
+
   def foo
   end
   private
@@ -148,6 +151,7 @@ end
 #de los Orígenes, que reciba un conjunto de condiciones por parámetro.
 #Los métodos retornados no solo serán aquellos definidos en la clase o módulo inmediato,
 #sino todos los de su jerarquía.
+##Que sea solo una colección de clases/módulos e instancias, y que ya no sea también por regex.
 Aspects.on MiClase, miObjeto do
 =begin
   where <<Condicion1>>, <<Condicion2>>, <<CondicionN>>
@@ -212,15 +216,17 @@ end
 #TRANSFORMACION: Se pide aplicar transformaciones sobre todos los métodos que matchean todas las condiciones.
 #Cuando los orígenes son módulos o clases, todas sus instancias se verán afectadas.
 #Cuando el origen sea una instancia, sólo ésa misma será afectada por las transformaciones.
+##que las transformaciones no se combinen o sea que solo se puede hacer transformaciones de before,
+##after e instead_of pero sin el punto de combinarlos, o sea que solo sea una transformación
 Aspects.on MiClase, miObjeto do
 =begin
-  transform(where <<Condicion1>>, <<Condicion2>>, <<CondicionN>>) do
+  def transform(where <<Condicion1>>, <<Condicion2>>, <<CondicionN>>) do
   <<Transformación1>>
   <<Transformación2>>
   #...hasta el infinito y mas alla!
-#Debe ser posible aplicar múltiples transformaciones (sucesivas o no) para las mismas
-#Condiciones u Origen.
-end
+  #Debe ser posible aplicar múltiples transformaciones (sucesivas o no) para las mismas
+  #Condiciones u Origen.
+  end
 =end
 end
 

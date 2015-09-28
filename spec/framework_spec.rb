@@ -49,6 +49,6 @@ describe 'framework tests' do
   instancia = MiClase.new
   instancia.m3(10)
   instancia.x
-#123
+  #123
 
 end
